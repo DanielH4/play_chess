@@ -2,6 +2,7 @@ asgiref==3.5.2
 attrs==22.1.0
 chesslib==0.1.0
 Django==4.1
+djangorestframework==3.13.1
 iniconfig==1.1.1
 jsonschema==4.14.0
 packaging==21.3
@@ -10,5 +11,6 @@ py==1.11.0
 pyparsing==3.0.9
 pyrsistent==0.18.1
 pytest==7.1.2
+pytz==2022.2.1
 sqlparse==0.4.2
 tomli==2.0.1
