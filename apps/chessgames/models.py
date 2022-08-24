@@ -14,6 +14,9 @@ class ChessGame(models.Model):
 
     @classmethod
     def create_default_game(cls):
+        """
+        Returns an instance created from a default Chess object.
+        """
         game = Chess()
 
         return cls(
