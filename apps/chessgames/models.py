@@ -20,7 +20,7 @@ class ChessGame(models.Model):
             turn=game.turn,
             in_check=game.in_check,
             checkmate=game.checkmate,
-            board = json.loads(game.toJSON()).get('board').get('board')
+            board=json.loads(game.toJSON()).get('board').get('board')
         )
 
     def to_chess(self):
