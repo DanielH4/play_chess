@@ -22,3 +22,29 @@ class ChessGame(models.Model):
             checkmate=game.checkmate,
             board = json.loads(game.toJSON()).get('board').get('board')
         )
+
+    def to_chess(self):
+        """
+        Returns a Chess object created from instance.
+        """
+        data = {
+            'turn': self.turn,
+            'in_check': self.in_check,
+            'checkmate': self.checkmate,
+            'board': {'board': self.board}
+        }
+        chess_json_str = json.dumps(data)
+
+        return Chess.fromJSON(chess_json_str)
+
+    @classmethod
+    def from_chess(cls, chess):
+        """
+        Returns an instance created from given Chess object.
+        """
+        return cls(
+            turn=chess.turn,
+            in_check=chess.in_check,
+            checkmate=chess.checkmate,
+            board=json.loads(chess.toJSON()).get('board').get('board')
+        )
