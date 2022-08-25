@@ -14,9 +14,14 @@ chessgame_detail = ChessGameViewSet.as_view({
 chessgame_move = ChessGameViewSet.as_view({
     'post': 'move'
 })
+chessgame_legal_moves = ChessGameViewSet.as_view({
+    'get': 'legal_moves'
+})
 
 urlpatterns = format_suffix_patterns([
     path('chessgames/', chessgame_list),
     path('chessgames/<int:pk>/', chessgame_detail),
+    path('chessgames/<int:pk>/legal-moves/', chessgame_legal_moves),
+    path('chessgames/<int:pk>/legal-moves/<str:square>/', chessgame_legal_moves),
     path('chessgames/<int:pk>/move/<str:from_square>/<str:to_square>/', chessgame_move),
 ])
