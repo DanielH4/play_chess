@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels',
     'rest_framework',
     'apps.chessgames',
 ]
@@ -70,6 +71,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'play_chess.wsgi.application'
+ASGI_APPLICATION = 'play_chess.asgi.application'
 
 
 # Database
