@@ -10,6 +10,13 @@ class ChessGameViewSet(viewsets.ModelViewSet):
     queryset = ChessGame.objects.all()
     serializer_class = ChessGameSerializer
 
+    def create(self, validated_data):
+        chess_game = ChessGame.create_default_game()
+        chess_game.save()
+        serializer = ChessGameSerializer(chess_game)
+
+        return Response(serializer.data)
+
     @action(methods=['post'],
             detail=True)
     def move(self, request, from_square, to_square, *args, **kwargs):

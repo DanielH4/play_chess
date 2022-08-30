@@ -6,10 +6,12 @@ from apps.chessgames.views import ChessGameViewSet
 
 
 chessgame_list = ChessGameViewSet.as_view({
-    'get': 'list'
+    'get': 'list',
+    'post': 'create'
 })
 chessgame_detail = ChessGameViewSet.as_view({
-    'get': 'retrieve'
+    'get': 'retrieve',
+    'delete': 'destroy'
 })
 chessgame_move = ChessGameViewSet.as_view({
     'post': 'move'
