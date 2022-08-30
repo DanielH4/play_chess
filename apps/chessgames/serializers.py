@@ -7,7 +7,7 @@ from apps.chessgames.serializer_fields import *
 class ChessGameSerializer(serializers.ModelSerializer):
     class Meta:
         model = ChessGame
-        exclude = ['id']
+        fields = '__all__'
 
 
 class LegalMovesSerializer(serializers.Serializer):
