@@ -16,18 +16,9 @@ class ChessGameViewSet(viewsets.ModelViewSet):
         """
         Performs a legal move and updates instance.
         """
-        instance = self.get_object()
-        chess = instance.to_chess()
-
-        # handle invalid move
-        if chess.move(from_square, to_square) is None:
-            return Response(data={'message': 'Invalid move.'}, status=status.HTTP_400_BAD_REQUEST)
-
-        updated_instance = ChessGame.from_chess(chess)
-        updated_instance_serializer = ChessGameSerializer(updated_instance)
-        serializer = ChessGameSerializer(instance, data=updated_instance_serializer.data)
-        serializer.is_valid()
-        serializer.save()
+        chessgame_instance = self.get_object()
+        chessgame_instance.move(from_square, to_square)
+        serializer = ChessGameSerializer(chessgame_instance)
 
         return Response(serializer.data)
 
@@ -37,14 +28,9 @@ class ChessGameViewSet(viewsets.ModelViewSet):
         """
         Returns instance's legal moves.
         """
-        instance = self.get_object()
-        chess = instance.to_chess()
-        legal_moves = chess.legal_moves()
+        chessgame_instance = self.get_object()
 
-        if square is not None:
-            legal_moves = filter(lambda move: move[0] == square, legal_moves)
-
-        data = { 'legal_moves': legal_moves }
+        data = { 'legal_moves': chessgame_instance.legal_moves(square=square) }
         serializer = LegalMovesSerializer(data=data)
 
         assert serializer.is_valid()

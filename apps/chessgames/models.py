@@ -26,6 +26,34 @@ class ChessGame(models.Model):
             board=json.loads(game.toJSON()).get('board').get('board')
         )
 
+    def move(self, from_square, to_square):
+        """
+        Perform a move on the chessboard and update instance.
+        """
+        chess = self.to_chess()
+        chess.move(from_square, to_square)
+        after_move = ChessGame.from_chess(chess)
+
+        self.turn = after_move.turn
+        self.in_check = after_move.in_check
+        self.checkmate = after_move.checkmate
+        self.board = after_move.board
+        self.save()
+
+    def legal_moves(self, square=None):
+        """
+        Returns the legal moves of the player in turn.
+        If a square is specified, only returns legal moves from that square.
+        """
+        chess = self.to_chess()
+        legal_moves = chess.legal_moves()
+
+        # only consider legal moves originating from specified square
+        if square is not None:
+            legal_moves = filter(lambda move: move[0] == square, legal_moves)
+
+        return legal_moves
+
     def to_chess(self):
         """
         Returns a Chess object created from instance.
