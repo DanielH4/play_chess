@@ -73,6 +73,11 @@ TEMPLATES = [
 WSGI_APPLICATION = 'play_chess.wsgi.application'
 ASGI_APPLICATION = 'play_chess.asgi.application'
 
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    }
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
