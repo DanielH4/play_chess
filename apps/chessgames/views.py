@@ -2,8 +2,27 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from apps.chessgames.models import ChessGame
-from apps.chessgames.serializers import ChessGameSerializer, LegalMovesSerializer
+from apps.chessgames.models import (
+    AnonymousChessGame,
+    ChessGame,
+)
+from apps.chessgames.serializers import (
+    AnonymousChessGameSerializer,
+    ChessGameSerializer,
+    LegalMovesSerializer,
+)
+
+
+class AnonymousChessGameViewSet(viewsets.ModelViewSet):
+    queryset = AnonymousChessGame.objects.all()
+    serializer_class = AnonymousChessGameSerializer
+
+    def create(self, validated_data):
+        chess_game = AnonymousChessGame.create_default_game()
+        chess_game.save()
+        serializer = AnonymousChessGameSerializer(chess_game)
+
+        return Response(serializer.data)
 
 
 class ChessGameViewSet(viewsets.ModelViewSet):
