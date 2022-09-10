@@ -25,6 +25,7 @@ python manage.py runserver 0.0.0.0:8000
 ### Create Chess game
 #### Request
 `POST /chessgames/`
+`POST /chessgames/anonymous/`
 ```
 curl -X POST http://localhost:8000/chessgames/
 ```
@@ -36,6 +37,7 @@ curl -X POST http://localhost:8000/chessgames/
 ### List Chess games
 #### Request
 `GET /chessgames/`
+`GET /chessgames/anonymous/`
 ```
 curl http://localhost:8000/chessgames/
 ```
@@ -47,6 +49,7 @@ curl http://localhost:8000/chessgames/
 ### Chess game details
 #### Request
 `GET /chessgames/<id>/`
+`GET /chessgames/anonymous/<id>/`
 ```
 curl http://localhost:8000/chessgames/1/
 ```
@@ -58,6 +61,7 @@ curl http://localhost:8000/chessgames/1/
 ### Delete game
 #### Request
 `DELETE /chessgames/<id>/`
+`DELETE /chessgames/anonymous/<id>/`
 ```
 curl -X DELETE http://localhost:8000/chessgames/2/
 ```
@@ -96,11 +100,13 @@ curl http://localhost:8000/chessgames/1/move/a2/a4/
 ```
 
 ## Websockets
-### Connect to a game
-`wss://localhost:8000/ws/<id>/`
+### Connect to an anonymous game
+`wss://localhost:8000/ws/chessgames/anonymous/<id>/`
 ```
-websocat ws://127.0.0.1:8000/ws/chessgames/1/
+websocat ws://127.0.0.1:8000/ws/chessgames/anonymous/1/
 ```
+Will only accept two clients connecting to a game (players for white and black pieces).
+A request is only processed if it's the given player's turn.
 
 ### Legal moves
 #### Send

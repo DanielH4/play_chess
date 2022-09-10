@@ -1,6 +1,7 @@
 import json
 
 from django.db import models
+from django.contrib.sessions.models import Session
 
 from chesslib.api import Chess
 
@@ -79,3 +80,35 @@ class ChessGame(models.Model):
             checkmate=chess.checkmate,
             board=json.loads(chess.toJSON()).get('board').get('board')
         )
+
+
+class AnonymousChessGame(ChessGame):
+    white_player = models.OneToOneField(Session,
+                                        on_delete=models.CASCADE,
+                                        default=None,
+                                        null=True,
+                                        blank=True,
+                                        related_name='white_player')
+    black_player = models.OneToOneField(Session,
+                                        on_delete=models.CASCADE,
+                                        default=None,
+                                        null=True,
+                                        blank=True,
+                                        related_name='black_player')
+
+    def is_full(self):
+        return (self.white_player is not None and
+                self.black_player is not None)
+
+    def add_player(self, session_key):
+        session = Session.objects.get(pk=session_key)
+
+        if self.white_player is None:
+            self.white_player = session
+        elif self.black_player is None:
+            self.black_player = session
+        self.save()
+
+    def is_player_turn(self, session_key):
+        return any([self.turn == 'white' and session_key == self.white_player.session_key,
+                    self.turn == 'black' and session_key == self.black_player.session_key])
